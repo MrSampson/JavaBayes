@@ -28,9 +28,9 @@ package edu.cmu.cs.javabayes;
 
 import java.applet.Applet;
 
-import edu.cmu.cs.javabayes.Interface.EditorFrame;
-import edu.cmu.cs.javabayes.Interface.JavaBayesConsoleFrame;
-import edu.cmu.cs.javabayes.Interface.JavaBayesHelpMessages;
+import edu.cmu.cs.javabayes.interfaces.EditorFrame;
+import edu.cmu.cs.javabayes.interfaces.JavaBayesConsoleFrame;
+import edu.cmu.cs.javabayes.interfaces.JavaBayesHelpMessages;
 
 public class JavaBayes extends Applet {
 	// Graphical elements of JavaBayes
