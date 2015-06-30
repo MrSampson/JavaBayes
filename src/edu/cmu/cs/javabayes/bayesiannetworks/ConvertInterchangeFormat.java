@@ -64,7 +64,7 @@ public class ConvertInterchangeFormat {
 	/**
 	 * Get the properties of the IFBayesNet in the InterchangeFormat.
 	 */
-	public Vector get_properties() {
+	public Vector<String> get_properties() {
 		IFBayesNet ifbn = ifo.get_ifbn();
 		if (ifbn == null)
 			return (null);
@@ -81,12 +81,12 @@ public class ConvertInterchangeFormat {
 	 */
 	public ProbabilityVariable[] get_probability_variables(BayesNet bn) {
 		int i;
-		Enumeration e;
+		Enumeration<IFProbabilityVariable> e;
 		IFProbabilityVariable ipv;
 		IFBayesNet ifbn = ifo.get_ifbn();
 		if (ifbn == null)
 			return (null);
-		Vector pvs = ifbn.get_pvs();
+		Vector<IFProbabilityVariable> pvs = ifbn.get_pvs();
 
 		ProbabilityVariable probability_variables[] = new ProbabilityVariable[pvs
 				.size()];
@@ -97,7 +97,7 @@ public class ConvertInterchangeFormat {
 					ipv.get_name(), i, ipv.get_values(), ipv.get_properties());
 		}
 
-		return (probability_variables);
+		return probability_variables;
 	}
 
 	/**
@@ -110,12 +110,12 @@ public class ConvertInterchangeFormat {
 	 */
 	public ProbabilityFunction[] get_probability_functions(BayesNet bn) {
 		int i;
-		Enumeration e;
+		Enumeration<IFProbabilityFunction> e;
 		IFProbabilityFunction upf;
 		IFBayesNet ifbn = ifo.get_ifbn();
 		if (ifbn == null)
 			return (null);
-		Vector upfs = ifbn.get_upfs();
+		Vector<IFProbabilityFunction> upfs = ifbn.get_upfs();
 
 		ProbabilityFunction probability_functions[] = new ProbabilityFunction[upfs
 				.size()];
@@ -125,7 +125,7 @@ public class ConvertInterchangeFormat {
 			probability_functions[i] = get_probability_function(bn, upf);
 		}
 
-		return (probability_functions);
+		return probability_functions;
 	}
 
 	/*
@@ -222,7 +222,7 @@ public class ConvertInterchangeFormat {
 		int i, j, k;
 
 		// Process the default values
-		Vector ddefaultss = upf.get_defaults();
+		Vector<double[]> ddefaultss = upf.get_defaults();
 		if (ddefaultss.size() > 0) {
 			double ddefaults[] = (double[]) (ddefaultss.firstElement());
 			for (i = 0; i < values.length; i++) {

@@ -29,37 +29,38 @@ package edu.cmu.cs.javabayes.interchangeformat;
 import java.util.Enumeration;
 import java.util.Vector;
 
-/************************************************************
- * Auxiliar class that stores the temporary information * about a
- * ProbabilityFunction, before it is possible to * actually create a
- * ProbabilityFunction object (because * not all variables may be read at this
- * point). The object * stores the variable names in the function, the vector *
- * of properties, and information that will be used to * create the conditional
- * distribution tables (the default * entry, the vector of entries, the table of
- * values; not * all of them may be filled for a particular probability) *
- ************************************************************/
-
+/**
+ * Auxiliary class that stores the temporary information about a
+ * ProbabilityFunction, before it is possible to actually create a
+ * ProbabilityFunction object (because not all variables may be read at this
+ * point). The object stores the variable names in the function, the vector of
+ * properties, and information that will be used to create the conditional
+ * distribution tables (the default entry, the vector of entries, the table of
+ * values; not all of them may be filled for a particular probability)
+ * 
+ * @author Fabio G. Cozman
+ */
 public class IFProbabilityFunction {
 	String s_variables[];
 	int conditional_index;
-	Vector properties;
-	Vector defaults;
-	Vector tables;
+	Vector<String> properties;
+	Vector<double[]> defaults;
+	Vector<double[]> tables;
 	Vector entries;
 
 	public void set_variables(String vs[]) {
 		s_variables = vs;
 	}
 
-	public void set_properties(Vector p) {
+	public void set_properties(Vector<String> p) {
 		properties = p;
 	}
 
-	public void set_defaults(Vector d) {
+	public void set_defaults(Vector<double[]> d) {
 		defaults = d;
 	}
 
-	public void set_tables(Vector t) {
+	public void set_tables(Vector<double[]> t) {
 		tables = t;
 	}
 
@@ -75,15 +76,15 @@ public class IFProbabilityFunction {
 		return (s_variables);
 	}
 
-	public Vector get_properties() {
+	public Vector<String> get_properties() {
 		return (properties);
 	} // Vector of String
 
-	public Vector get_defaults() {
+	public Vector<double[]> get_defaults() {
 		return (defaults);
 	} // Vector of double[]
 
-	public Vector get_tables() {
+	public Vector<double[]> get_tables() {
 		return (tables);
 	} // Vector of double[]
 
@@ -103,7 +104,7 @@ public class IFProbabilityFunction {
 	 *************************************************************/
 	public void invert_tables(IFBayesNet ifbn) {
 		IFProbabilityVariable pv;
-		Vector new_tables;
+		Vector<double[]> new_tables;
 		Enumeration e, ee;
 		String running_name;
 		double t[], new_table[];
@@ -113,7 +114,7 @@ public class IFProbabilityFunction {
 		if (s_variables.length > 1) { // No need to do anything if only one
 										// variable.
 			// Go through all the tables.
-			new_tables = new Vector(); // Initialize a Vector for the new
+			new_tables = new Vector<double[]>(); // Initialize a Vector for the new
 										// tables.
 			for (e = tables.elements(); e.hasMoreElements();) {
 				size_of_first = 0;

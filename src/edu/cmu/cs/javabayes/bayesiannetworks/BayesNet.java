@@ -42,7 +42,7 @@ import edu.cmu.cs.javabayes.interchangeformat.InterchangeFormat;
 
 public class BayesNet {
 	protected String name;
-	protected Vector properties;
+	protected Vector<String> properties;
 	protected ProbabilityVariable probability_variables[];
 	protected ProbabilityFunction probability_functions[];
 	protected DiscreteFunction utility_function;
@@ -84,7 +84,7 @@ public class BayesNet {
 	 * @param p
 	 *            Properties of the network.
 	 */
-	public BayesNet(String n_n, Vector p) {
+	public BayesNet(String n_n, Vector<String> p) {
 		this();
 		name = n_n;
 		properties = p;
@@ -251,8 +251,8 @@ public class BayesNet {
 
 		out.println();
 		if ((properties != null) && (properties.size() > 0)) {
-			for (Enumeration e = properties.elements(); e.hasMoreElements();) {
-				property = (String) (e.nextElement());
+			for (Enumeration<String> e = properties.elements(); e.hasMoreElements();) {
+				property = (e.nextElement());
 				out.println("\tproperty \"" + property + "\" ;");
 			}
 		}
@@ -374,8 +374,8 @@ public class BayesNet {
 		if (name != null)
 			pstream.println("<NAME>" + name + "</NAME>");
 		if ((properties != null) && (properties.size() > 0)) {
-			for (Enumeration e = properties.elements(); e.hasMoreElements();) {
-				property = (String) (e.nextElement());
+			for (Enumeration<String> e = properties.elements(); e.hasMoreElements();) {
+				property = (e.nextElement());
 				pstream.println("\t<PROPERTY>" + property + "</PROPERTY>");
 			}
 		}
@@ -445,8 +445,8 @@ public class BayesNet {
 		if (name != null)
 			pstream.println("<NAME>" + name + "</NAME>");
 		if ((properties != null) && (properties.size() > 0)) {
-			for (Enumeration e = properties.elements(); e.hasMoreElements();) {
-				property = (String) (e.nextElement());
+			for (Enumeration<String> e = properties.elements(); e.hasMoreElements();) {
+				property = (e.nextElement());
 				pstream.println("\t<PROPERTY>" + property + "</PROPERTY>");
 			}
 		}
@@ -489,8 +489,8 @@ public class BayesNet {
 	public String[][] get_all_evidence() {
 		int i, j, aux;
 		ProbabilityVariable pv;
-		Vector evs = new Vector();
-		Enumeration e;
+		Vector<ProbabilityVariable> evs = new Vector<ProbabilityVariable>();
+		Enumeration<ProbabilityVariable> e;
 		String all_evs[][] = null;
 
 		for (i = 0; i < probability_variables.length; i++) {
@@ -505,7 +505,7 @@ public class BayesNet {
 
 		j = 0;
 		for (e = evs.elements(); e.hasMoreElements();) {
-			pv = (ProbabilityVariable) (e.nextElement());
+			pv = (e.nextElement());
 			all_evs[j][0] = pv.name;
 			aux = pv.observed_index;
 			all_evs[j][1] = pv.values[aux];
@@ -563,14 +563,14 @@ public class BayesNet {
 	/**
 	 * Get the properties.
 	 */
-	public Vector get_properties() {
+	public Vector<String> get_properties() {
 		return (properties);
 	}
 
 	/**
 	 * Set the properties.
 	 */
-	public void set_properties(Vector prop) {
+	public void set_properties(Vector<String> prop) {
 		properties = prop;
 	}
 
@@ -579,7 +579,7 @@ public class BayesNet {
 	 */
 	public void add_property(String prop) {
 		if (properties == null)
-			properties = new Vector();
+			properties = new Vector<String>();
 		properties.addElement(prop);
 	}
 
@@ -660,7 +660,7 @@ public class BayesNet {
 	 * Set a probability variable given its constituents.
 	 */
 	public void set_probability_variable(int index, String name, String v[],
-			Vector vec) {
+			Vector<String> vec) {
 		if (index <= probability_variables.length) {
 			probability_variables[index] = new ProbabilityVariable(this, name,
 					index, v, vec);
@@ -671,7 +671,7 @@ public class BayesNet {
 	 * Set a probability function given its constituents.
 	 */
 	public void set_probability_function(int index,
-			ProbabilityVariable[] variables, double values[], Vector vec) {
+			ProbabilityVariable[] variables, double values[], Vector<String> vec) {
 		if (index <= probability_functions.length) {
 			probability_functions[index] = new ProbabilityFunction(this,
 					variables, values, vec);

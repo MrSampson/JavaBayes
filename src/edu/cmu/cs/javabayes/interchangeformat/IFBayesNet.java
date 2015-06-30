@@ -30,40 +30,40 @@ import java.util.Enumeration;
 import java.util.Vector;
 
 /**
- * Auxiliar class that stores the temporary information about a BayesNet, before
+ * Auxiliary class that stores the temporary information about a BayesNet, before
  * it is possible to actually create a BayesNet object
  */
 
 public class IFBayesNet {
 	String name;
-	Vector properties;
-	Vector pvs;
-	Vector upfs;
+	Vector<String> properties;
+	Vector<IFProbabilityVariable> pvs;
+	Vector<IFProbabilityFunction> upfs;
 
 	public String get_name() {
 		return (name);
 	}
 
-	public Vector get_properties() {
+	public Vector<String> get_properties() {
 		return (properties);
 	}
 
-	public Vector get_pvs() {
+	public Vector<IFProbabilityVariable> get_pvs() {
 		return (pvs);
 	}
 
-	public Vector get_upfs() {
+	public Vector<IFProbabilityFunction> get_upfs() {
 		return (upfs);
 	}
 
 	/**
 	 * Basic constructor.
 	 */
-	public IFBayesNet(String n, Vector p) {
+	public IFBayesNet(String n, Vector<String> p) {
 		name = n;
 		properties = p;
-		pvs = new Vector();
-		upfs = new Vector();
+		pvs = new Vector<IFProbabilityVariable>();
+		upfs = new Vector<IFProbabilityFunction>();
 	}
 
 	/**
@@ -87,7 +87,7 @@ public class IFBayesNet {
 	 * indexes in the tables.
 	 */
 	public void invert_probability_tables() {
-		for (Enumeration e = upfs.elements(); e.hasMoreElements();)
+		for (Enumeration<IFProbabilityFunction> e = upfs.elements(); e.hasMoreElements();)
 			((IFProbabilityFunction) (e.nextElement())).invert_tables(this);
 	}
 }
