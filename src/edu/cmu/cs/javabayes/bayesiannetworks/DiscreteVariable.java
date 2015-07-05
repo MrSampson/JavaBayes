@@ -28,7 +28,6 @@ package edu.cmu.cs.javabayes.bayesiannetworks;
 
 import java.io.PrintStream;
 
-/*******************************************************************/
 
 public class DiscreteVariable {
 	protected String name; // Name of the variable

@@ -41,120 +41,123 @@ import java.util.Vector;
  * @author Fabio G. Cozman
  */
 public class IFProbabilityFunction {
-	String s_variables[];
-	int conditional_index;
-	Vector<String> properties;
-	Vector<double[]> defaults;
-	Vector<double[]> tables;
-	Vector entries;
+    String s_variables[];
+    int conditional_index;
+    Vector<String> properties;
+    Vector<double[]> defaults;
+    Vector<double[]> tables;
+    Vector<IFProbabilityFunction> entries;
 
-	public void set_variables(String vs[]) {
-		s_variables = vs;
-	}
+    public void set_variables(String vs[]) {
+        this.s_variables = vs;
+    }
 
-	public void set_properties(Vector<String> p) {
-		properties = p;
-	}
+    public void set_properties(Vector<String> p) {
+        this.properties = p;
+    }
 
-	public void set_defaults(Vector<double[]> d) {
-		defaults = d;
-	}
+    public void set_defaults(Vector<double[]> d) {
+        this.defaults = d;
+    }
 
-	public void set_tables(Vector<double[]> t) {
-		tables = t;
-	}
+    public void set_tables(Vector<double[]> t) {
+        this.tables = t;
+    }
 
-	public void set_entries(Vector e) {
-		entries = e;
-	}
+    public void set_entries(Vector<IFProbabilityFunction> e) {
+        this.entries = e;
+    }
 
-	public void set_conditional_index(int c) {
-		conditional_index = c;
-	}
+    public void set_conditional_index(int c) {
+        this.conditional_index = c;
+    }
 
-	public String[] get_variables() {
-		return (s_variables);
-	}
+    public String[] get_variables() {
+        return this.s_variables;
+    }
 
-	public Vector<String> get_properties() {
-		return (properties);
-	} // Vector of String
+    public Vector<String> get_properties() {
+        return (this.properties);
+    } // Vector of String
 
-	public Vector<double[]> get_defaults() {
-		return (defaults);
-	} // Vector of double[]
+    public Vector<double[]> get_defaults() {
+        return (this.defaults);
+    } // Vector of double[]
 
-	public Vector<double[]> get_tables() {
-		return (tables);
-	} // Vector of double[]
+    public Vector<double[]> get_tables() {
+        return (this.tables);
+    } // Vector of double[]
 
-	public Vector get_entries() {
-		return (entries);
-	} // Vector of IFProbabilityFunctionEntry
+    public Vector<IFProbabilityFunction> get_entries() {
+        return (this.entries);
+    } // Vector of IFProbabilityFunctionEntry
 
-	public int get_conditional_index() {
-		return (conditional_index);
-	}
+    public int get_conditional_index() {
+        return (this.conditional_index);
+    }
 
-	/*************************************************************
-	 * Method that inverts the tables in the ProbabilityFunction * object;
-	 * necessary for formats that put the GIVEN * variables as the lowest
-	 * running indexes in the tables. * At this point it assumes that there is
-	 * only one FOR * variable in the ProbabilityFunction object. *
-	 *************************************************************/
-	public void invert_tables(IFBayesNet ifbn) {
-		IFProbabilityVariable pv;
-		Vector<double[]> new_tables;
-		Enumeration e, ee;
-		String running_name;
-		double t[], new_table[];
-		int i, j;
-		int size_of_first = 0, size_of_others = 1;
+    /**
+     * Method that inverts the tables in the ProbabilityFunction object;
+     * necessary for formats that put the GIVEN variables as the lowest running
+     * indexes in the tables. At this point it assumes that there is only one
+     * FOR variable in the ProbabilityFunction object.
+     * @param ifbn 
+     */
+    public void invert_tables(IFBayesNet ifbn) {
+        IFProbabilityVariable pv;
+        Vector<double[]> new_tables;
+        Enumeration<double[]> e;
+        Enumeration<IFProbabilityVariable> ee;
+        String running_name;
+        double t[], new_table[];
+        int i, j;
+        int size_of_first = 0, size_of_others = 1;
 
-		if (s_variables.length > 1) { // No need to do anything if only one
-										// variable.
-			// Go through all the tables.
-			new_tables = new Vector<double[]>(); // Initialize a Vector for the new
-										// tables.
-			for (e = tables.elements(); e.hasMoreElements();) {
-				size_of_first = 0;
-				size_of_others = 1;
-				t = (double[]) (e.nextElement()); // Get the table.
-				// Now get the first variable.
-				for (ee = ifbn.pvs.elements(); ee.hasMoreElements();) {
-					pv = (IFProbabilityVariable) (ee.nextElement());
-					running_name = pv.get_name();
-					if (running_name.equals(s_variables[0])) { // Found the
-																// first
-																// variable.
-						size_of_first = pv.get_values().length; // Obtain its
-																// size.
-						break; // Get out of loop through variables.
-					}
-				}
-				// Get the size of all other variables;
-				for (j = 1; j < s_variables.length; j++) {
-					for (ee = ifbn.pvs.elements(); ee.hasMoreElements();) {
-						pv = (IFProbabilityVariable) (ee.nextElement());
-						running_name = pv.get_name();
-						if (running_name.equals(s_variables[j])) { // Found the
-																	// variable.
-							size_of_others *= pv.get_values().length;
-							break; // Get out of loop through variables.
-						}
-					}
-				}
-				// Build a new table.
-				new_table = new double[t.length];
-				for (i = 0; i < size_of_first; i++)
-					for (j = 0; j < size_of_others; j++)
-						new_table[i * size_of_others + j] = t[j * size_of_first
-								+ i];
-				// Insert the new table in the Vector new_tables.
-				new_tables.addElement(new_table);
-			}
-			// Now attach the new Vector.
-			tables = new_tables;
-		}
-	}
+        if (this.s_variables.length > 1) { // No need to do anything if only one
+                                      // variable.
+            // Go through all the tables.
+            new_tables = new Vector<double[]>(); // Initialize a Vector for the
+                                                 // new
+            // tables.
+            for (e = this.tables.elements(); e.hasMoreElements();) {
+                size_of_first = 0;
+                size_of_others = 1;
+                t = (double[]) (e.nextElement()); // Get the table.
+                // Now get the first variable.
+                for (ee = ifbn.pvs.elements(); ee.hasMoreElements();) {
+                    pv = (IFProbabilityVariable) (ee.nextElement());
+                    running_name = pv.get_name();
+                    if (running_name.equals(this.s_variables[0])) { // Found the
+                                                               // first
+                                                               // variable.
+                        size_of_first = pv.get_values().length; // Obtain its
+                                                                // size.
+                        break; // Get out of loop through variables.
+                    }
+                }
+                // Get the size of all other variables;
+                for (j = 1; j < this.s_variables.length; j++) {
+                    for (ee = ifbn.pvs.elements(); ee.hasMoreElements();) {
+                        pv = (IFProbabilityVariable) (ee.nextElement());
+                        running_name = pv.get_name();
+                        if (running_name.equals(this.s_variables[j])) { // Found the
+                                                                   // variable.
+                            size_of_others *= pv.get_values().length;
+                            break; // Get out of loop through variables.
+                        }
+                    }
+                }
+                // Build a new table.
+                new_table = new double[t.length];
+                for (i = 0; i < size_of_first; i++)
+                    for (j = 0; j < size_of_others; j++)
+                        new_table[i * size_of_others + j] = t[j * size_of_first
+                                + i];
+                // Insert the new table in the Vector new_tables.
+                new_tables.addElement(new_table);
+            }
+            // Now attach the new Vector.
+            this.tables = new_tables;
+        }
+    }
 }

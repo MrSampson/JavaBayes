@@ -82,10 +82,11 @@ public class ProbabilityFunction extends DiscreteFunction {
 			properties = ((ProbabilityFunction) df).properties;
 	}
 
-	/* ************************************************************* */
-	/* Method that processes the properties */
-	/* ************************************************************* */
+	/** 
+	* Method that processes the properties 
+	*/ 
 	void process_properties() {
+	    
 	}
 
 	/**

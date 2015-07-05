@@ -30,7 +30,6 @@ import java.io.PrintStream;
 import java.util.Enumeration;
 import java.util.Vector;
 
-/*******************************************************************/
 
 public class ProbabilityVariable extends DiscreteVariable {
 	protected int type = ProbabilityVariable.CHANCE;

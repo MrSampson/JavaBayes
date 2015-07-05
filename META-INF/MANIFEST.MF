@@ -13,7 +13,7 @@ Export-Package: edu.cmu.cs.javabayes,
  edu.cmu.cs.javabayes.parsers.BIFv01,
  edu.cmu.cs.javabayes.parsers.BIFv015,
  edu.cmu.cs.javabayes.parsers.XMLBIFv02,
- edu.cmu.cs.javabayes.parsersXMLBIFv03,
+ edu.cmu.cs.javabayes.parsers.XMLBIFv03,
  edu.cmu.cs.javabayes.quasibayesianinferences,
  edu.cmu.cs.javabayes.quasibayesiannetworks
 Bundle-ClassPath: javabayes.jar,

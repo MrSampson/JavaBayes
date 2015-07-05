@@ -71,9 +71,9 @@ public class BayesNet {
 	 */
 	public BayesNet(String n_n, int n_v, int n_f) {
 		this();
-		name = n_n;
-		probability_variables = new ProbabilityVariable[n_v];
-		probability_functions = new ProbabilityFunction[n_f];
+		this.name = n_n;
+		this.probability_variables = new ProbabilityVariable[n_v];
+		this.probability_functions = new ProbabilityFunction[n_f];
 	}
 
 	/**
@@ -86,8 +86,8 @@ public class BayesNet {
 	 */
 	public BayesNet(String n_n, Vector<String> p) {
 		this();
-		name = n_n;
-		properties = p;
+		this.name = n_n;
+		this.properties = p;
 	}
 
 	/**
@@ -101,11 +101,11 @@ public class BayesNet {
 				bn.probability_functions.length);
 
 		for (int i = 0; i < bn.probability_variables.length; i++)
-			probability_variables[i] = bn.probability_variables[i];
+			this.probability_variables[i] = bn.probability_variables[i];
 		for (int i = 0; i < bn.probability_functions.length; i++)
-			probability_functions[i] = bn.probability_functions[i];
+			this.probability_functions[i] = bn.probability_functions[i];
 
-		properties = bn.properties;
+		this.properties = bn.properties;
 	}
 
 	/**
@@ -182,20 +182,20 @@ public class BayesNet {
 	 */
 	protected void translate(InterchangeFormat ifo) {
 		ConvertInterchangeFormat cbn = new ConvertInterchangeFormat(ifo);
-		name = cbn.get_name();
-		properties = cbn.get_properties();
-		probability_variables = cbn.get_probability_variables(this);
-		probability_functions = cbn.get_probability_functions(this);
+		this.name = cbn.get_name();
+		this.properties = cbn.get_properties();
+		this.probability_variables = cbn.get_probability_variables(this);
+		this.probability_functions = cbn.get_probability_functions(this);
 
 		// Process BayesNet properties
 		process_properties();
 
 		// Process ProbabilityVariable properties
-		for (int i = 0; i < probability_variables.length; i++)
+		for (int i = 0; i < this.probability_variables.length; i++)
 			process_probability_variable_properties(i);
 
 		// Process ProbabilityFunction properties
-		for (int i = 0; i < probability_functions.length; i++)
+		for (int i = 0; i < this.probability_functions.length; i++)
 			process_probability_function_properties(i);
 	}
 
@@ -209,14 +209,14 @@ public class BayesNet {
 	 * Process the properties of a ProbabilityVariable.
 	 */
 	protected void process_probability_variable_properties(int index) {
-		probability_variables[index].process_properties();
+		this.probability_variables[index].process_properties();
 	}
 
 	/*
 	 * Process the properties of a ProbabilityFunction.
 	 */
 	protected void process_probability_function_properties(int index) {
-		probability_functions[index].process_properties();
+		this.probability_functions[index].process_properties();
 	}
 
 	/**
@@ -226,9 +226,9 @@ public class BayesNet {
 	 * to identify the variable uniquely.
 	 */
 	public ProbabilityFunction get_function(ProbabilityVariable p_v) {
-		for (int i = 0; i < probability_functions.length; i++)
-			if (p_v.index == probability_functions[i].variables[0].index)
-				return (probability_functions[i]);
+		for (int i = 0; i < this.probability_functions.length; i++)
+			if (p_v.index == this.probability_functions[i].variables[0].index)
+				return (this.probability_functions[i]);
 
 		return (null);
 	}
@@ -241,30 +241,30 @@ public class BayesNet {
 		String property;
 
 		out.println("// Bayesian network ");
-		if (name != null)
-			out.print("network \"" + name + "\" {");
-		if (probability_variables != null)
-			out.print(" //" + probability_variables.length + " variables");
-		if (probability_functions != null)
-			out.print(" and " + probability_functions.length
+		if (this.name != null)
+			out.print("network \"" + this.name + "\" {");
+		if (this.probability_variables != null)
+			out.print(" //" + this.probability_variables.length + " variables");
+		if (this.probability_functions != null)
+			out.print(" and " + this.probability_functions.length
 					+ " probability distributions");
 
 		out.println();
-		if ((properties != null) && (properties.size() > 0)) {
-			for (Enumeration<String> e = properties.elements(); e.hasMoreElements();) {
+		if ((this.properties != null) && (this.properties.size() > 0)) {
+			for (Enumeration<String> e = this.properties.elements(); e.hasMoreElements();) {
 				property = (e.nextElement());
 				out.println("\tproperty \"" + property + "\" ;");
 			}
 		}
 		out.println("}");
-		if (probability_variables != null)
-			for (i = 0; i < probability_variables.length; i++)
-				if (probability_variables[i] != null)
-					probability_variables[i].print(out);
-		if (probability_functions != null)
-			for (i = 0; i < probability_functions.length; i++)
-				if (probability_functions[i] != null)
-					probability_functions[i].print(out);
+		if (this.probability_variables != null)
+			for (i = 0; i < this.probability_variables.length; i++)
+				if (this.probability_variables[i] != null)
+					this.probability_variables[i].print(out);
+		if (this.probability_functions != null)
+			for (i = 0; i < this.probability_functions.length; i++)
+				if (this.probability_functions[i] != null)
+					this.probability_functions[i].print(out);
 	}
 
 	/**
@@ -273,41 +273,41 @@ public class BayesNet {
 	public void save_embayes(PrintStream out) {
 		int i, j;
 		out.println("import ebayes.data.*");
-		out.println("class " + name + " extends BayesNet {");
-		out.println("\tpublic " + name + "() {");
-		out.println("\tsetName(\"" + name + "\");");
+		out.println("class " + this.name + " extends BayesNet {");
+		out.println("\tpublic " + this.name + "() {");
+		out.println("\tsetName(\"" + this.name + "\");");
 
-		for (i = 0; i < probability_variables.length; i++) {
+		for (i = 0; i < this.probability_variables.length; i++) {
 			out.println("\tCategoricalVariable "
-					+ probability_variables[i].name + " = ");
+					+ this.probability_variables[i].name + " = ");
 			out.println("\t\tnew CategoricalVariable(\""
-					+ probability_variables[i].name + "\",");
+					+ this.probability_variables[i].name + "\",");
 			out.print("\t\t\tnew String[] {");
-			for (j = 0; j < probability_variables[i].values.length; j++) {
-				out.print("\"" + probability_variables[i].values[j] + "\"");
-				if (j != (probability_variables[i].values.length - 1))
+			for (j = 0; j < this.probability_variables[i].values.length; j++) {
+				out.print("\"" + this.probability_variables[i].values[j] + "\"");
+				if (j != (this.probability_variables[i].values.length - 1))
 					out.print(",");
 			}
 			out.println("});\n");
 		}
 		out.println("\n\n");
-		for (i = 0; i < probability_functions.length; i++) {
+		for (i = 0; i < this.probability_functions.length; i++) {
 			out.println("\tCategoricalProbability p" + i + " = ");
 			out.println("\t\tnew CategoricalProbability("
-					+ probability_functions[i].variables[0].get_name() + ",");
-			if (probability_functions[i].variables.length > 1) {
+					+ this.probability_functions[i].variables[0].get_name() + ",");
+			if (this.probability_functions[i].variables.length > 1) {
 				out.print("\t\t\tnew CategoricalVariable[] {");
-				for (j = 1; j < probability_functions[i].variables.length; j++) {
-					out.print(probability_functions[i].variables[j].get_name());
-					if (j != (probability_functions[i].variables.length - 1))
+				for (j = 1; j < this.probability_functions[i].variables.length; j++) {
+					out.print(this.probability_functions[i].variables[j].get_name());
+					if (j != (this.probability_functions[i].variables.length - 1))
 						out.print(", ");
 				}
 				out.println("}, ");
 			}
 			out.print("\t\t\tnew double[] {");
-			for (j = 0; j < probability_functions[i].values.length; j++) {
-				out.print(probability_functions[i].values[j]);
-				if (j != (probability_functions[i].values.length - 1))
+			for (j = 0; j < this.probability_functions[i].values.length; j++) {
+				out.print(this.probability_functions[i].values[j]);
+				if (j != (this.probability_functions[i].values.length - 1))
 					out.print(", ");
 			}
 			out.println("});\n");
@@ -315,9 +315,9 @@ public class BayesNet {
 		out.println("\tsetVariables(");
 		out.println("\t\tnew CategoricalVariable[]");
 		out.print("\t\t\t{");
-		for (i = 0; i < probability_variables.length; i++) {
-			out.print(probability_variables[i].get_name());
-			if (i != (probability_variables.length - 1))
+		for (i = 0; i < this.probability_variables.length; i++) {
+			out.print(this.probability_variables[i].get_name());
+			if (i != (this.probability_variables.length - 1))
 				out.print(", ");
 		}
 		out.println("} );\n");
@@ -325,9 +325,9 @@ public class BayesNet {
 		out.println("\tsetProbabilities(");
 		out.println("\t\tnew CategoricalProbability[]");
 		out.print("\t\t\t{");
-		for (i = 0; i < probability_functions.length; i++) {
+		for (i = 0; i < this.probability_functions.length; i++) {
 			out.print("p" + i);
-			if (i != (probability_functions.length - 1))
+			if (i != (this.probability_functions.length - 1))
 				out.print(", ");
 		}
 		out.println("} );\n");
@@ -371,10 +371,10 @@ public class BayesNet {
 
 		// Bayes net description
 		pstream.println("<NETWORK>");
-		if (name != null)
-			pstream.println("<NAME>" + name + "</NAME>");
-		if ((properties != null) && (properties.size() > 0)) {
-			for (Enumeration<String> e = properties.elements(); e.hasMoreElements();) {
+		if (this.name != null)
+			pstream.println("<NAME>" + this.name + "</NAME>");
+		if ((this.properties != null) && (this.properties.size() > 0)) {
+			for (Enumeration<String> e = this.properties.elements(); e.hasMoreElements();) {
 				property = (e.nextElement());
 				pstream.println("\t<PROPERTY>" + property + "</PROPERTY>");
 			}
@@ -383,18 +383,18 @@ public class BayesNet {
 
 		// Variables
 		pstream.println("<!-- Variables -->");
-		if (probability_variables != null)
-			for (i = 0; i < probability_variables.length; i++)
-				if (probability_variables[i] != null)
-					probability_variables[i].save_xml_0_3(pstream);
+		if (this.probability_variables != null)
+			for (i = 0; i < this.probability_variables.length; i++)
+				if (this.probability_variables[i] != null)
+					this.probability_variables[i].save_xml_0_3(pstream);
 		pstream.println();
 
 		// Probability distributions.
 		pstream.println("<!-- Probability distributions -->");
-		if (probability_functions != null)
-			for (i = 0; i < probability_functions.length; i++)
-				if (probability_functions[i] != null)
-					probability_functions[i].save_xml_0_3(pstream);
+		if (this.probability_functions != null)
+			for (i = 0; i < this.probability_functions.length; i++)
+				if (this.probability_functions[i] != null)
+					this.probability_functions[i].save_xml_0_3(pstream);
 		pstream.println();
 
 		// End of Bayes net description.
@@ -442,10 +442,10 @@ public class BayesNet {
 
 		// Bayes net description
 		pstream.println("<NETWORK>");
-		if (name != null)
-			pstream.println("<NAME>" + name + "</NAME>");
-		if ((properties != null) && (properties.size() > 0)) {
-			for (Enumeration<String> e = properties.elements(); e.hasMoreElements();) {
+		if (this.name != null)
+			pstream.println("<NAME>" + this.name + "</NAME>");
+		if ((this.properties != null) && (this.properties.size() > 0)) {
+			for (Enumeration<String> e = this.properties.elements(); e.hasMoreElements();) {
 				property = (e.nextElement());
 				pstream.println("\t<PROPERTY>" + property + "</PROPERTY>");
 			}
@@ -454,18 +454,18 @@ public class BayesNet {
 
 		// Variables
 		pstream.println("<!-- Variables -->");
-		if (probability_variables != null)
-			for (i = 0; i < probability_variables.length; i++)
-				if (probability_variables[i] != null)
-					probability_variables[i].save_xml(pstream);
+		if (this.probability_variables != null)
+			for (i = 0; i < this.probability_variables.length; i++)
+				if (this.probability_variables[i] != null)
+					this.probability_variables[i].save_xml(pstream);
 		pstream.println();
 
 		// Probability distributions.
 		pstream.println("<!-- Probability distributions -->");
-		if (probability_functions != null)
-			for (i = 0; i < probability_functions.length; i++)
-				if (probability_functions[i] != null)
-					probability_functions[i].save_xml(pstream);
+		if (this.probability_functions != null)
+			for (i = 0; i < this.probability_functions.length; i++)
+				if (this.probability_functions[i] != null)
+					this.probability_functions[i].save_xml(pstream);
 		pstream.println();
 
 		// End of Bayes net description.
@@ -493,8 +493,8 @@ public class BayesNet {
 		Enumeration<ProbabilityVariable> e;
 		String all_evs[][] = null;
 
-		for (i = 0; i < probability_variables.length; i++) {
-			pv = probability_variables[i];
+		for (i = 0; i < this.probability_variables.length; i++) {
+			pv = this.probability_variables[i];
 			if (pv.observed_index != BayesNet.INVALID_INDEX)
 				evs.addElement(pv);
 		}
@@ -520,8 +520,8 @@ public class BayesNet {
 
 	public int index_of_variable(String n_vb) {
 		int i;
-		for (i = 0; i < probability_variables.length; i++) {
-			if (probability_variables[i].name.equals(n_vb))
+		for (i = 0; i < this.probability_variables.length; i++) {
+			if (this.probability_variables[i].name.equals(n_vb))
 				return (i);
 		}
 		return (-1); // Returns -1 if name is not valid!
@@ -550,77 +550,77 @@ public class BayesNet {
 	 * Get the name of the network.
 	 */
 	public String get_name() {
-		return (name);
+		return (this.name);
 	}
 
 	/**
 	 * Set the name of the network.
 	 */
 	public void set_name(String n) {
-		name = n;
+		this.name = n;
 	}
 
 	/**
 	 * Get the properties.
 	 */
 	public Vector<String> get_properties() {
-		return (properties);
+		return (this.properties);
 	}
 
 	/**
 	 * Set the properties.
 	 */
 	public void set_properties(Vector<String> prop) {
-		properties = prop;
+		this.properties = prop;
 	}
 
 	/**
 	 * Add a property.
 	 */
 	public void add_property(String prop) {
-		if (properties == null)
-			properties = new Vector<String>();
-		properties.addElement(prop);
+		if (this.properties == null)
+			this.properties = new Vector<String>();
+		this.properties.addElement(prop);
 	}
 
 	/**
 	 * Remove a property.
 	 */
 	public void remove_property(String prop) {
-		properties.removeElement(prop);
+		this.properties.removeElement(prop);
 	}
 
 	/**
 	 * Remove a property.
 	 */
 	public void remove_property(int i) {
-		properties.removeElementAt(i);
+		this.properties.removeElementAt(i);
 	}
 
 	/**
 	 * Get the number of variables in the network.
 	 */
 	public int number_variables() {
-		if (probability_variables == null)
+		if (this.probability_variables == null)
 			return (BayesNet.INVALID_INDEX);
-		return (probability_variables.length);
+		return (this.probability_variables.length);
 	}
 
 	/**
 	 * Get the number of distributions in the network.
 	 */
 	public int number_probability_functions() {
-		if (probability_functions == null)
+		if (this.probability_functions == null)
 			return (BayesNet.INVALID_INDEX);
-		return (probability_functions.length);
+		return (this.probability_functions.length);
 	}
 
 	/**
 	 * Get the probability variable at a given index.
 	 */
 	public ProbabilityVariable get_probability_variable(int index) {
-		if (index <= probability_variables.length)
-			return (probability_variables[index]);
+		if (index <= this.probability_variables.length)
+			return (this.probability_variables[index]);
 		else
 			return (null);
 	}
@@ -629,8 +629,8 @@ public class BayesNet {
 	 * Get the probability function at a given index.
 	 */
 	public ProbabilityFunction get_probability_function(int index) {
-		if (index <= probability_functions.length)
-			return (probability_functions[index]);
+		if (index <= this.probability_functions.length)
+			return (this.probability_functions[index]);
 		else
 			return (null);
 	}
@@ -639,21 +639,21 @@ public class BayesNet {
 	 * Get the probability variables.
 	 */
 	public ProbabilityVariable[] get_probability_variables() {
-		return (probability_variables);
+		return (this.probability_variables);
 	}
 
 	/**
 	 * Get the probability functions.
 	 */
 	public ProbabilityFunction[] get_probability_functions() {
-		return (probability_functions);
+		return (this.probability_functions);
 	}
 
 	/**
 	 * Get the utility function.
 	 */
 	public DiscreteFunction get_utility_function() {
-		return (utility_function);
+		return (this.utility_function);
 	}
 
 	/**
@@ -661,8 +661,8 @@ public class BayesNet {
 	 */
 	public void set_probability_variable(int index, String name, String v[],
 			Vector<String> vec) {
-		if (index <= probability_variables.length) {
-			probability_variables[index] = new ProbabilityVariable(this, name,
+		if (index <= this.probability_variables.length) {
+			this.probability_variables[index] = new ProbabilityVariable(this, name,
 					index, v, vec);
 		}
 	}
@@ -672,8 +672,8 @@ public class BayesNet {
 	 */
 	public void set_probability_function(int index,
 			ProbabilityVariable[] variables, double values[], Vector<String> vec) {
-		if (index <= probability_functions.length) {
-			probability_functions[index] = new ProbabilityFunction(this,
+		if (index <= this.probability_functions.length) {
+			this.probability_functions[index] = new ProbabilityFunction(this,
 					variables, values, vec);
 		}
 	}
@@ -684,7 +684,7 @@ public class BayesNet {
 	public void set_probability_variable(int index, ProbabilityVariable p_v) {
 		p_v.bn = this;
 		p_v.index = index;
-		probability_variables[index] = p_v;
+		this.probability_variables[index] = p_v;
 	}
 
 	/**
@@ -692,20 +692,20 @@ public class BayesNet {
 	 */
 	public void set_probability_function(int index, ProbabilityFunction p_f) {
 		p_f.bn = this;
-		probability_functions[index] = p_f;
+		this.probability_functions[index] = p_f;
 	}
 
 	/**
 	 * Set the vector of probability variables.
 	 */
 	public void set_probability_variables(ProbabilityVariable pvs[]) {
-		probability_variables = pvs;
+		this.probability_variables = pvs;
 	}
 
 	/**
 	 * Set the vector of probability functions.
 	 */
 	public void set_probability_functions(ProbabilityFunction pfs[]) {
-		probability_functions = pfs;
+		this.probability_functions = pfs;
 	}
 }

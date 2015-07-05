@@ -29,119 +29,128 @@ package edu.cmu.cs.javabayes.interchangeformat;
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 
+import edu.cmu.cs.javabayes.parsers.BIFv01.BIFv01;
+import edu.cmu.cs.javabayes.parsers.BIFv015.BIFv015;
+import edu.cmu.cs.javabayes.parsers.XMLBIFv02.XMLBIFv02;
+import edu.cmu.cs.javabayes.parsers.XMLBIFv03.XMLBIFv03;
+
 public class InterchangeFormat {
-	InputStream istream;
-	edu.cmu.cs.javabayes.parsersXMLBIFv03.XMLBIFv03 xml_bif03;
-	edu.cmu.cs.javabayes.parsers.XMLBIFv02.XMLBIFv02 xml_bif02;
-	edu.cmu.cs.javabayes.parsers.BIFv015.BIFv015 bif015;
-	edu.cmu.cs.javabayes.parsers.BIFv01.BIFv01 bif01;
+    InputStream istream;
+    XMLBIFv03 xml_bif03;
+    XMLBIFv02 xml_bif02;
+    BIFv015 bif015;
+    BIFv01 bif01;
 
-	// Size of the buffer for reading and resetting streams
-	private final static int MARK_READ_LIMIT = 10000;
+    // Size of the buffer for reading and resetting streams
+    private final static int MARK_READ_LIMIT = 10000;
 
-	public InterchangeFormat() {
-	}
+    public InterchangeFormat() {
+    }
 
-	public InterchangeFormat(InputStream is) {
-		set_stream(is);
-	}
+    public InterchangeFormat(InputStream is) {
+        set_stream(is);
+    }
 
-	public void set_stream(InputStream is) {
-		istream = new BufferedInputStream(is);
-	}
+    public void set_stream(InputStream is) {
+        istream = new BufferedInputStream(is);
+    }
 
-	public void CompilationUnit() throws IFException {
-		StringBuffer error_messages = new StringBuffer("Error messages\n");
-		xml_bif03 = null;
-		xml_bif02 = null;
-		bif015 = null;
-		bif01 = null;
+    public void CompilationUnit() throws IFException {
+        StringBuffer error_messages = new StringBuffer("Error messages\n");
+        xml_bif03 = null;
+        xml_bif02 = null;
+        bif015 = null;
+        bif01 = null;
 
-		if (istream.markSupported()) {
-			istream.mark(MARK_READ_LIMIT);
-		} else
-			error_messages.append("\nNo support for reset operation.");
+        if (istream.markSupported()) {
+            istream.mark(MARK_READ_LIMIT);
+        } else
+            error_messages.append("\nNo support for reset operation.");
 
-		xml_bif03 = new edu.cmu.cs.javabayes.parsersXMLBIFv03.XMLBIFv03(istream);
-		try {
-			xml_bif03.CompilationUnit();
-			xml_bif03.invert_probability_tables();
-		} catch (Throwable e4) { // Catch anything!
-			error_messages.append(e4);
-			try {
-				istream.reset();
-			} catch (Exception e) {
-				error_messages.append("\n\nReset not allowed!");
-			}
-			error_messages.append("Input stream reset!\n");
-			// Note that the following lines are within an enclosing catch
-			// block.
-			xml_bif02 = new edu.cmu.cs.javabayes.parsers.XMLBIFv02.XMLBIFv02(istream);
-			try {
-				xml_bif02.CompilationUnit();
-			} catch (Throwable e3) { // Catch anything!
-				error_messages.append(e3);
-				try {
-					istream.reset();
-				} catch (Exception e) {
-					error_messages.append("\n\nReset not allowed!");
-				}
-				error_messages.append("Input stream reset!\n");
-				// Note that the following lines are within an enclosing catch
-				// block.
-				bif015 = new edu.cmu.cs.javabayes.parsers.BIFv015.BIFv015(istream);
-				try {
-					bif015.CompilationUnit();
-				} catch (Throwable e2) { // Catch anything!
-					error_messages.append(e2);
-					try {
-						istream.reset();
-					} catch (Exception e) {
-						error_messages.append("\n\nReset not allowed!");
-					}
-					error_messages.append("Input stream reset!\n");
-					// Note that the following lines are within an enclosing
-					// catch block.
-					bif01 = new edu.cmu.cs.javabayes.parsers.BIFv01.BIFv01(istream);
-					try {
-						bif01.CompilationUnit();
-					} catch (Throwable e1) { // Catch anything!
-						error_messages.append(e1);
-						throw new IFException(new String(error_messages));
-					} // End bif01
-				} // End bif015
-			} // End xml_bif02
-		} // End xml_bif03
-	}
+        xml_bif03 = new edu.cmu.cs.javabayes.parsers.XMLBIFv03.XMLBIFv03(
+                istream);
+        try {
+            xml_bif03.CompilationUnit();
+            xml_bif03.invert_probability_tables();
+        } catch (Throwable e4) { // Catch anything!
+            error_messages.append(e4);
+            try {
+                istream.reset();
+            } catch (Exception e) {
+                error_messages.append("\n\nReset not allowed!");
+            }
+            error_messages.append("Input stream reset!\n");
+            // Note that the following lines are within an enclosing catch
+            // block.
+            xml_bif02 = new edu.cmu.cs.javabayes.parsers.XMLBIFv02.XMLBIFv02(
+                    istream);
+            try {
+                xml_bif02.CompilationUnit();
+            } catch (Throwable e3) { // Catch anything!
+                error_messages.append(e3);
+                try {
+                    istream.reset();
+                } catch (Exception e) {
+                    error_messages.append("\n\nReset not allowed!");
+                }
+                error_messages.append("Input stream reset!\n");
+                // Note that the following lines are within an enclosing catch
+                // block.
+                bif015 = new edu.cmu.cs.javabayes.parsers.BIFv015.BIFv015(
+                        istream);
+                try {
+                    bif015.CompilationUnit();
+                } catch (Throwable e2) { // Catch anything!
+                    error_messages.append(e2);
+                    try {
+                        istream.reset();
+                    } catch (Exception e) {
+                        error_messages.append("\n\nReset not allowed!");
+                    }
+                    error_messages.append("Input stream reset!\n");
+                    // Note that the following lines are within an enclosing
+                    // catch block.
+                    bif01 = new edu.cmu.cs.javabayes.parsers.BIFv01.BIFv01(
+                            istream);
+                    try {
+                        bif01.CompilationUnit();
+                    } catch (Throwable e1) { // Catch anything!
+                        error_messages.append(e1);
+                        throw new IFException(new String(error_messages));
+                    } // End bif01
+                } // End bif015
+            } // End xml_bif02
+        } // End xml_bif03
+    }
 
-	public IFBayesNet get_ifbn() {
-		IFBayesNet ifbn = null;
+    public IFBayesNet get_ifbn() {
+        IFBayesNet ifbn = null;
 
-		if (xml_bif03 != null)
-			ifbn = xml_bif03.get_ifbn();
-		if (ifbn != null)
-			return (ifbn);
-		else {
-			// Note that the following lines are inside an else.
-			if (xml_bif02 != null)
-				ifbn = xml_bif02.get_ifbn();
-			if (ifbn != null)
-				return (ifbn);
-			else {
-				// Note that the following lines are inside an else.
-				if (bif015 != null)
-					ifbn = bif015.get_ifbn();
-				if (ifbn != null)
-					return (ifbn);
-				else {
-					// Note that the following lines are inside an else.
-					if (bif01 != null)
-						ifbn = bif01.get_ifbn();
-					if (ifbn != null)
-						return (ifbn);
-				} // End of bif01
-			} // End of bif015
-		} // End of xml_bif02
-		return (ifbn);
-	}
+        if (xml_bif03 != null)
+            ifbn = xml_bif03.get_ifbn();
+        if (ifbn != null)
+            return (ifbn);
+        else {
+            // Note that the following lines are inside an else.
+            if (xml_bif02 != null)
+                ifbn = xml_bif02.get_ifbn();
+            if (ifbn != null)
+                return (ifbn);
+            else {
+                // Note that the following lines are inside an else.
+                if (bif015 != null)
+                    ifbn = bif015.get_ifbn();
+                if (ifbn != null)
+                    return (ifbn);
+                else {
+                    // Note that the following lines are inside an else.
+                    if (bif01 != null)
+                        ifbn = bif01.get_ifbn();
+                    if (ifbn != null)
+                        return (ifbn);
+                } // End of bif01
+            } // End of bif015
+        } // End of xml_bif02
+        return (ifbn);
+    }
 }
