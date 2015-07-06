@@ -46,7 +46,7 @@ public class IFProbabilityFunction {
     Vector<String> properties;
     Vector<double[]> defaults;
     Vector<double[]> tables;
-    Vector<IFProbabilityFunction> entries;
+    Vector<IFProbabilityEntry> entries;
 
     public void set_variables(String vs[]) {
         this.s_variables = vs;
@@ -64,7 +64,7 @@ public class IFProbabilityFunction {
         this.tables = t;
     }
 
-    public void set_entries(Vector<IFProbabilityFunction> e) {
+    public void set_entries(Vector<IFProbabilityEntry> e) {
         this.entries = e;
     }
 
@@ -88,7 +88,7 @@ public class IFProbabilityFunction {
         return (this.tables);
     } // Vector of double[]
 
-    public Vector<IFProbabilityFunction> get_entries() {
+    public Vector<IFProbabilityEntry> get_entries() {
         return (this.entries);
     } // Vector of IFProbabilityFunctionEntry
 
@@ -116,7 +116,7 @@ public class IFProbabilityFunction {
         if (this.s_variables.length > 1) { // No need to do anything if only one
                                       // variable.
             // Go through all the tables.
-            new_tables = new Vector<double[]>(); // Initialize a Vector for the
+            new_tables = new Vector<>(); // Initialize a Vector for the
                                                  // new
             // tables.
             for (e = this.tables.elements(); e.hasMoreElements();) {

@@ -26,28 +26,36 @@
 
 package edu.cmu.cs.javabayes.interchangeformat;
 
-/***************************************************************/
-/* Auxiliar class that stores the contents of a probability    */
-/* entry (the variable values and the numeric entries          */
-/***************************************************************/
+/**
+ * Auxiliary class that stores the contents of a probability entry (the variable
+ * values and the numeric entries
+ */
 
 public class IFProbabilityEntry {
 	String values[];
 	double entries[];
 
+	/**
+	 * @return
+	 */
 	public String[] get_values() {
-		return (values);
+		return (this.values);
 	}
 
+	/**
+	 * @return
+	 */
 	public double[] get_entries() {
-		return (entries);
+		return (this.entries);
 	}
 
-	/***************************************************************/
-	/* Simple constructor for an entry object */
-	/***************************************************************/
+	/**
+	 * Simple constructor for an entry object
+	 * @param v 
+	 * @param e 
+	 */
 	public IFProbabilityEntry(String v[], double e[]) {
-		values = v;
-		entries = e;
+		this.values = v;
+		this.entries = e;
 	}
 }

@@ -144,7 +144,7 @@ public class XMLBIFv03 extends InterchangeFormat implements XMLBIFv03Constants {
 	 */
 	final public void NetworkDeclaration() throws ParseException {
 		String s, ss;
-		Vector properties = new Vector();
+		Vector<String> properties = new Vector<String>();
 		double version;
 		version = VersionDeclaration();
 		pcdata();
@@ -266,9 +266,9 @@ public class XMLBIFv03 extends InterchangeFormat implements XMLBIFv03Constants {
 			throws ParseException {
 		int i;
 		String s, v, svalues[];
-		Vector properties = new Vector();
-		Vector values = new Vector();
-		Enumeration e;
+		Vector<String> properties = new Vector<String>();
+		Vector<String> values = new Vector<String>();
+		Enumeration<String> e;
 		IFProbabilityVariable pv = new IFProbabilityVariable();
 		label_3: while (true) {
 			switch ((this.jj_ntk == -1) ? jj_ntk() : this.jj_ntk) {
@@ -299,7 +299,7 @@ public class XMLBIFv03 extends InterchangeFormat implements XMLBIFv03Constants {
 		pv.set_properties(properties);
 		svalues = new String[values.size()];
 		for (e = values.elements(), i = 0; e.hasMoreElements(); i++)
-			svalues[i] = (String) (e.nextElement());
+			svalues[i] = (e.nextElement());
 		pv.set_values(svalues);
 
 		return (pv);
@@ -348,14 +348,14 @@ public class XMLBIFv03 extends InterchangeFormat implements XMLBIFv03Constants {
 		double tab[] = null;
 		String s, vs[];
 		IFProbabilityEntry entry = null;
-		Enumeration e;
+		Enumeration<String> e;
 
-		Vector fors = new Vector();
-		Vector givens = new Vector();
-		Vector properties = new Vector();
-		Vector entries = new Vector();
-		Vector defaults = new Vector();
-		Vector tables = new Vector();
+		Vector<String> fors = new Vector<String>();
+		Vector<String> givens = new Vector<String>();
+		Vector<String> properties = new Vector<String>();
+		Vector<IFProbabilityEntry> entries = new Vector<IFProbabilityEntry>();
+		Vector<double[]> defaults = new Vector<double[]>();
+		Vector<double[]> tables = new Vector<double[]>();
 		label_4: while (true) {
 			switch ((this.jj_ntk == -1) ? jj_ntk() : this.jj_ntk) {
 			case SOT:
@@ -396,9 +396,9 @@ public class XMLBIFv03 extends InterchangeFormat implements XMLBIFv03Constants {
 		upf.set_conditional_index(fors.size());
 		vs = new String[fors.size() + givens.size()];
 		for (e = fors.elements(), i = 0; e.hasMoreElements(); i++)
-			vs[i] = (String) (e.nextElement());
+			vs[i] = (e.nextElement());
 		for (e = givens.elements(), j = i; e.hasMoreElements(); j++)
-			vs[j] = (String) (e.nextElement());
+			vs[j] = (e.nextElement());
 		upf.set_variables(vs);
 	}
 
@@ -453,8 +453,8 @@ public class XMLBIFv03 extends InterchangeFormat implements XMLBIFv03Constants {
 		int i;
 		Double d;
 		double ds[];
-		Vector d_list = new Vector();
-		Enumeration e;
+		Vector<Double> d_list = new Vector<Double>();
+		Enumeration<Double> e;
 		d = FloatingPointNumber();
 		d_list.addElement(d);
 		label_5: while (true) {
@@ -471,7 +471,7 @@ public class XMLBIFv03 extends InterchangeFormat implements XMLBIFv03Constants {
 		}
 		ds = new double[d_list.size()];
 		for (e = d_list.elements(), i = 0; e.hasMoreElements(); i++) {
-			d = (Double) (e.nextElement());
+			d = (e.nextElement());
 			ds[i] = d.doubleValue();
 		}
 
@@ -716,7 +716,7 @@ public class XMLBIFv03 extends InterchangeFormat implements XMLBIFv03Constants {
 			return (this.jj_ntk = this.jj_nt.kind);
 	}
 
-	private java.util.Vector jj_expentries = new java.util.Vector();
+	private java.util.Vector<int[]> jj_expentries = new java.util.Vector<>();
 	private int[] jj_expentry;
 	private int jj_kind = -1;
 	private int[] jj_lasttokens = new int[100];
@@ -733,9 +733,7 @@ public class XMLBIFv03 extends InterchangeFormat implements XMLBIFv03Constants {
 				this.jj_expentry[i] = this.jj_lasttokens[i];
 			}
 			boolean exists = false;
-			for (java.util.Enumeration e = this.jj_expentries.elements(); e
-					.hasMoreElements();) {
-				int[] oldentry = (int[]) (e.nextElement());
+			for (int[] oldentry: this.jj_expentries) {
 				if (oldentry.length == this.jj_expentry.length) {
 					exists = true;
 					for (int i = 0; i < this.jj_expentry.length; i++) {
@@ -786,7 +784,7 @@ public class XMLBIFv03 extends InterchangeFormat implements XMLBIFv03Constants {
 		jj_add_error_token(0, 0);
 		int[][] exptokseq = new int[this.jj_expentries.size()][];
 		for (int i = 0; i < this.jj_expentries.size(); i++) {
-			exptokseq[i] = (int[]) this.jj_expentries.elementAt(i);
+			exptokseq[i] = this.jj_expentries.elementAt(i);
 		}
 		return new ParseException(this.token, exptokseq, tokenImage);
 	}

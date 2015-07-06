@@ -62,30 +62,48 @@ import java.util.Vector;
 
 public class IFProbabilityVariable {
     String name;
-    Vector properties;
+    Vector<String> properties;
     String values[];
 
+    /**
+     * @param n the new name
+     */
     public void set_name(String n) {
-        name = n;
+        this.name = n;
     }
 
-    public void set_properties(Vector p) {
-        properties = p;
+    /**
+     * @param p the new properties
+     */
+    public void set_properties(Vector<String> p) {
+        this.properties = p;
     }
 
+    /**
+     * @param vs the new values
+     */
     public void set_values(String vs[]) {
-        values = vs;
+        this.values = vs;
     }
 
+    /**
+     * @return the name of this variable
+     */
     public String get_name() {
-        return (name);
+        return (this.name);
     }
 
-    public Vector get_properties() {
-        return (properties);
+    /**
+     * @return the properties of this variable
+     */
+    public Vector<String> get_properties() {
+        return (this.properties);
     }
 
+    /**
+     * @return the value names of this variable
+     */
     public String[] get_values() {
-        return (values);
+        return (this.values);
     }
 }
