@@ -30,7 +30,6 @@ import java.io.PrintStream;
 import java.util.Enumeration;
 import java.util.Vector;
 
-
 public class ProbabilityVariable extends DiscreteVariable {
 	protected int type = ProbabilityVariable.CHANCE;
 
@@ -147,8 +146,6 @@ public class ProbabilityVariable extends DiscreteVariable {
 	public void save_xml_0_3(PrintStream out) {
 		String property;
 
-		if (this == null)
-			return;
 		out.println("<VARIABLE TYPE=\"nature\">");
 		if (name != null)
 			out.println("\t<NAME>" + name + "</NAME>");
@@ -181,8 +178,6 @@ public class ProbabilityVariable extends DiscreteVariable {
 	public void save_xml(PrintStream out) {
 		String property;
 
-		if (this == null)
-			return;
 		out.println("<VARIABLE>");
 		if (name != null)
 			out.println("\t<NAME>" + name + "</NAME>");
@@ -217,8 +212,6 @@ public class ProbabilityVariable extends DiscreteVariable {
 	public void print(PrintStream out) {
 		String property;
 
-		if (this == null)
-			return;
 		out.print("variable ");
 		if (name != null)
 			out.print(" \"" + name + "\" ");

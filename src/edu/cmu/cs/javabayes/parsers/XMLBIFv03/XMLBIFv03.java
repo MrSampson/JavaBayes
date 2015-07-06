@@ -9,10 +9,9 @@ import edu.cmu.cs.javabayes.interchangeformat.IFProbabilityFunction;
 import edu.cmu.cs.javabayes.interchangeformat.IFProbabilityVariable;
 import edu.cmu.cs.javabayes.interchangeformat.InterchangeFormat;
 
-/*
- * Definition of the Interchange Format class and its
- * variables. The IFBayesNet ifbn contains the
- * parsed Bayesian network.
+/**
+ * Definition of the Interchange Format class and its variables. The IFBayesNet
+ * ifbn contains the parsed Bayesian network.
  */
 
 public class XMLBIFv03 extends InterchangeFormat implements XMLBIFv03Constants {
@@ -27,6 +26,9 @@ public class XMLBIFv03 extends InterchangeFormat implements XMLBIFv03Constants {
 		return (this.ifbn);
 	}
 
+	/**
+	 * 
+	 */
 	public void invert_probability_tables() {
 		this.ifbn.invert_probability_tables();
 	}
@@ -71,11 +73,11 @@ public class XMLBIFv03 extends InterchangeFormat implements XMLBIFv03Constants {
 		}
 	}
 
-	/*
+	/**
 	 * THE INTERCHANGE FORMAT GRAMMAR STARTS HERE.
 	 */
 
-	/*
+	/**
 	 * Basic parsing function. First looks for a Network Declaration, then looks
 	 * for an arbitrary number of VariableDeclaration or ProbabilityDeclaration
 	 * non-terminals. The objects are in the vectors ifbn.pvs and ifbn.upfs.
@@ -135,8 +137,10 @@ public class XMLBIFv03 extends InterchangeFormat implements XMLBIFv03Constants {
 		jj_consume_token(OPENTAG);
 	}
 
-	/*
+	/**
 	 * Detect and initialize the network.
+	 * 
+	 * @throws ParseException
 	 */
 	final public void NetworkDeclaration() throws ParseException {
 		String s, ss;
@@ -166,7 +170,7 @@ public class XMLBIFv03 extends InterchangeFormat implements XMLBIFv03Constants {
 		this.ifbn = new IFBayesNet(s, properties);
 	}
 
-	/*
+	/**
 	 * Get the format version.
 	 */
 	final public double VersionDeclaration() throws ParseException {
@@ -177,14 +181,12 @@ public class XMLBIFv03 extends InterchangeFormat implements XMLBIFv03Constants {
 		t = jj_consume_token(ATTRIBUTE_STRING);
 		version = (Double.valueOf((t.image).substring(1, t.image.length() - 1)))
 				.doubleValue();
-		{
-			if (true)
-				return (version);
-		}
-		throw new Error("Missing return statement in function");
+
+		return (version);
+
 	}
 
-	/*
+	/**
 	 * Detect a variable declaration.
 	 */
 	final public IFProbabilityVariable VariableDeclaration()
@@ -207,11 +209,9 @@ public class XMLBIFv03 extends InterchangeFormat implements XMLBIFv03Constants {
 		jj_consume_token(EOT);
 		jj_consume_token(VARIABLE);
 		jj_consume_token(CT);
-		{
-			if (true)
-				return (pv);
-		}
-		throw new Error("Missing return statement in function");
+
+		return (pv);
+
 	}
 
 	final public String ProbabilityVariableName() throws ParseException {
@@ -222,11 +222,9 @@ public class XMLBIFv03 extends InterchangeFormat implements XMLBIFv03Constants {
 		jj_consume_token(EOT);
 		jj_consume_token(NAME);
 		jj_consume_token(CT);
-		{
-			if (true)
-				return (s);
-		}
-		throw new Error("Missing return statement in function");
+
+		return (s);
+
 	}
 
 	final public int TypeDeclaration() throws ParseException {
@@ -234,42 +232,34 @@ public class XMLBIFv03 extends InterchangeFormat implements XMLBIFv03Constants {
 		jj_consume_token(TYPE);
 		jj_consume_token(EQUAL);
 		type = ProbabilityVariableType();
-		{
-			if (true)
-				return (type);
-		}
-		throw new Error("Missing return statement in function");
+
+		return (type);
+
 	}
 
 	final public int ProbabilityVariableType() throws ParseException {
 		switch ((this.jj_ntk == -1) ? jj_ntk() : this.jj_ntk) {
 		case NATURE:
 			jj_consume_token(NATURE);
-			{
-				if (true)
-					return (NATURE_DEFINE);
-			}
-			break;
+
+			return (NATURE_DEFINE);
+
 		case DECISION:
 			jj_consume_token(DECISION);
-			{
-				if (true)
-					return (DECISION_DEFINE);
-			}
-			break;
+
+			return (DECISION_DEFINE);
+
 		case UTILITY:
 			jj_consume_token(UTILITY);
-			{
-				if (true)
-					return (UTILITY_DEFINE);
-			}
-			break;
+
+			return (UTILITY_DEFINE);
+
 		default:
 			this.jj_la1[4] = this.jj_gen;
 			jj_consume_token(-1);
 			throw new ParseException();
 		}
-		throw new Error("Missing return statement in function");
+
 	}
 
 	final public IFProbabilityVariable VariableContent(String name)
@@ -311,13 +301,15 @@ public class XMLBIFv03 extends InterchangeFormat implements XMLBIFv03Constants {
 		for (e = values.elements(), i = 0; e.hasMoreElements(); i++)
 			svalues[i] = (String) (e.nextElement());
 		pv.set_values(svalues);
-		{
-			if (true)
-				return (pv);
-		}
-		throw new Error("Missing return statement in function");
+
+		return (pv);
+
 	}
 
+	/**
+	 * @return
+	 * @throws ParseException
+	 */
 	final public String VariableOutcome() throws ParseException {
 		String s;
 		jj_consume_token(SOT);
@@ -326,14 +318,12 @@ public class XMLBIFv03 extends InterchangeFormat implements XMLBIFv03Constants {
 		jj_consume_token(EOT);
 		jj_consume_token(OUTCOME);
 		jj_consume_token(CT);
-		{
-			if (true)
-				return (s);
-		}
-		throw new Error("Missing return statement in function");
+
+		return (s);
+
 	}
 
-	/*
+	/**
 	 * Detect a probability declaration.
 	 */
 	final public IFProbabilityFunction ProbabilityDeclaration()
@@ -346,11 +336,9 @@ public class XMLBIFv03 extends InterchangeFormat implements XMLBIFv03Constants {
 		jj_consume_token(EOT);
 		jj_consume_token(DEFINITION);
 		jj_consume_token(CT);
-		{
-			if (true)
-				return (upf);
-		}
-		throw new Error("Missing return statement in function");
+
+		return (upf);
+
 	}
 
 	final public void ProbabilityContent(IFProbabilityFunction upf)
@@ -421,11 +409,9 @@ public class XMLBIFv03 extends InterchangeFormat implements XMLBIFv03Constants {
 		jj_consume_token(EOT);
 		jj_consume_token(FOR);
 		jj_consume_token(CT);
-		{
-			if (true)
-				return (s);
-		}
-		throw new Error("Missing return statement in function");
+
+		return (s);
+
 	}
 
 	final public String ProbabilityGiven() throws ParseException {
@@ -435,11 +421,9 @@ public class XMLBIFv03 extends InterchangeFormat implements XMLBIFv03Constants {
 		jj_consume_token(EOT);
 		jj_consume_token(GIVEN);
 		jj_consume_token(CT);
-		{
-			if (true)
-				return (s);
-		}
-		throw new Error("Missing return statement in function");
+
+		return (s);
+
 	}
 
 	final public double[] ProbabilityTable() throws ParseException {
@@ -450,19 +434,20 @@ public class XMLBIFv03 extends InterchangeFormat implements XMLBIFv03Constants {
 		jj_consume_token(EOT);
 		jj_consume_token(TABLE);
 		jj_consume_token(CT);
-		{
-			if (true)
-				return (d);
-		}
-		throw new Error("Missing return statement in function");
+
+		return (d);
+
 	}
 
-	/*
+	/**
 	 * Some general purpose non-terminals.
 	 */
 
-	/*
+	/**
 	 * Pick a list of non-negative floating numbers.
+	 * 
+	 * @return
+	 * @throws ParseException
 	 */
 	final public double[] FloatingPointList() throws ParseException {
 		int i;
@@ -489,28 +474,24 @@ public class XMLBIFv03 extends InterchangeFormat implements XMLBIFv03Constants {
 			d = (Double) (e.nextElement());
 			ds[i] = d.doubleValue();
 		}
-		{
-			if (true)
-				return (ds);
-		}
-		throw new Error("Missing return statement in function");
+
+		return (ds);
+
 	}
 
-	/*
+	/**
 	 * Pick a non-negative floating number; necessary to allow ignored
 	 * characters and comments to exist in the middle of a FloatingPointList().
 	 */
 	final public Double FloatingPointNumber() throws ParseException {
 		Token t;
 		t = jj_consume_token(NON_NEGATIVE_NUMBER);
-		{
-			if (true)
-				return (Double.valueOf(t.image));
-		}
-		throw new Error("Missing return statement in function");
+
+		return (Double.valueOf(t.image));
+
 	}
 
-	/*
+	/**
 	 * Property definition.
 	 */
 	final public String Property() throws ParseException {
@@ -521,37 +502,31 @@ public class XMLBIFv03 extends InterchangeFormat implements XMLBIFv03Constants {
 		jj_consume_token(EOT);
 		jj_consume_token(PROPERTY);
 		jj_consume_token(CT);
-		{
-			if (true)
-				return (s);
-		}
-		throw new Error("Missing return statement in function");
+
+		return (s);
+
 	}
 
-	/*
+	/**
 	 * Identifier.
 	 */
 	final public String getIdentifier() throws ParseException {
 		Token t;
 		jj_consume_token(CT);
 		t = jj_consume_token(IDENTIFIER);
-		{
-			if (true)
-				return (t.image);
-		}
-		throw new Error("Missing return statement in function");
+
+		return (t.image);
+
 	}
 
-	/*
+	/**
 	 * String.
 	 */
 	final public String getString() throws ParseException {
 		jj_consume_token(CT);
-		{
-			if (true)
-				return (pcdata());
-		}
-		throw new Error("Missing return statement in function");
+
+		return (pcdata());
+
 	}
 
 	final private boolean jj_2_1(int xla) {
@@ -735,7 +710,8 @@ public class XMLBIFv03 extends InterchangeFormat implements XMLBIFv03Constants {
 
 	final private int jj_ntk() {
 		if ((this.jj_nt = this.token.next) == null)
-			return (this.jj_ntk = (this.token.next = this.token_source.getNextToken()).kind);
+			return (this.jj_ntk = (this.token.next = this.token_source
+					.getNextToken()).kind);
 		else
 			return (this.jj_ntk = this.jj_nt.kind);
 	}

@@ -28,7 +28,6 @@ package edu.cmu.cs.javabayes.bayesiannetworks;
 
 import java.io.PrintStream;
 
-
 public class DiscreteVariable {
 	protected String name; // Name of the variable
 	protected int index; // Index of the variable in a collection of variables
@@ -128,8 +127,7 @@ public class DiscreteVariable {
 	 * Print method for DiscreteVariable.
 	 */
 	public void print(PrintStream out) {
-		if (this == null)
-			return;
+
 		out.print("variable ");
 		if (name != null)
 			out.print(" \"" + name + "\" ");
