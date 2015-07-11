@@ -52,68 +52,67 @@ public class InterchangeFormat {
 	}
 
 	public void set_stream(InputStream is) {
-		istream = new BufferedInputStream(is);
+		this.istream = new BufferedInputStream(is);
 	}
 
 	public void CompilationUnit() throws IFException {
 		StringBuffer error_messages = new StringBuffer("Error messages\n");
-		xml_bif03 = null;
-		xml_bif02 = null;
-		bif015 = null;
-		bif01 = null;
+		this.xml_bif03 = null;
+		this.xml_bif02 = null;
+		this.bif015 = null;
+		this.bif01 = null;
 
-		if (istream.markSupported()) {
-			istream.mark(MARK_READ_LIMIT);
+		if (this.istream.markSupported()) {
+			this.istream.mark(MARK_READ_LIMIT);
 		} else
 			error_messages.append("\nNo support for reset operation.");
 
-		xml_bif03 = new edu.cmu.cs.javabayes.parsers.XMLBIFv03.XMLBIFv03(
-				istream);
+		this.xml_bif03 = new XMLBIFv03(this.istream);
 		try {
-			xml_bif03.CompilationUnit();
-			xml_bif03.invert_probability_tables();
+			this.xml_bif03.CompilationUnit();
+			this.xml_bif03.invert_probability_tables();
 		} catch (Throwable e4) { // Catch anything!
 			error_messages.append(e4);
 			try {
-				istream.reset();
+				this.istream.reset();
 			} catch (Exception e) {
 				error_messages.append("\n\nReset not allowed!");
 			}
 			error_messages.append("Input stream reset!\n");
 			// Note that the following lines are within an enclosing catch
 			// block.
-			xml_bif02 = new edu.cmu.cs.javabayes.parsers.XMLBIFv02.XMLBIFv02(
-					istream);
+			this.xml_bif02 = new edu.cmu.cs.javabayes.parsers.XMLBIFv02.XMLBIFv02(
+					this.istream);
 			try {
-				xml_bif02.CompilationUnit();
+				this.xml_bif02.CompilationUnit();
 			} catch (Throwable e3) { // Catch anything!
 				error_messages.append(e3);
 				try {
-					istream.reset();
+					this.istream.reset();
 				} catch (Exception e) {
 					error_messages.append("\n\nReset not allowed!");
 				}
 				error_messages.append("Input stream reset!\n");
 				// Note that the following lines are within an enclosing catch
 				// block.
-				bif015 = new edu.cmu.cs.javabayes.parsers.BIFv015.BIFv015(
-						istream);
+				this.bif015 = new edu.cmu.cs.javabayes.parsers.BIFv015.BIFv015(
+						this.istream);
 				try {
-					bif015.CompilationUnit();
+					this.bif015.CompilationUnit();
 				} catch (Throwable e2) { // Catch anything!
 					error_messages.append(e2);
 					try {
-						istream.reset();
+						this.istream.reset();
 					} catch (Exception e) {
 						error_messages.append("\n\nReset not allowed!");
 					}
 					error_messages.append("Input stream reset!\n");
 					// Note that the following lines are within an enclosing
 					// catch block.
-					bif01 = new edu.cmu.cs.javabayes.parsers.BIFv01.BIFv01(
-							istream);
+					this.bif01 = new edu.cmu.cs.javabayes.parsers.BIFv01.BIFv01(
+							this.istream);
 					try {
-						bif01.CompilationUnit();
+						this.bif01.CompilationUnit();
 					} catch (Throwable e1) { // Catch anything!
 						error_messages.append(e1);
 						throw new IFException(new String(error_messages));
@@ -126,26 +125,26 @@ public class InterchangeFormat {
 	public IFBayesNet get_ifbn() {
 		IFBayesNet ifbn = null;
 
-		if (xml_bif03 != null)
-			ifbn = xml_bif03.get_ifbn();
+		if (this.xml_bif03 != null)
+			ifbn = this.xml_bif03.get_ifbn();
 		if (ifbn != null)
 			return (ifbn);
 		else {
 			// Note that the following lines are inside an else.
-			if (xml_bif02 != null)
-				ifbn = xml_bif02.get_ifbn();
+			if (this.xml_bif02 != null)
+				ifbn = this.xml_bif02.get_ifbn();
 			if (ifbn != null)
 				return (ifbn);
 			else {
 				// Note that the following lines are inside an else.
-				if (bif015 != null)
-					ifbn = bif015.get_ifbn();
+				if (this.bif015 != null)
+					ifbn = this.bif015.get_ifbn();
 				if (ifbn != null)
 					return (ifbn);
 				else {
 					// Note that the following lines are inside an else.
-					if (bif01 != null)
-						ifbn = bif01.get_ifbn();
+					if (this.bif01 != null)
+						ifbn = this.bif01.get_ifbn();
 					if (ifbn != null)
 						return (ifbn);
 				} // End of bif01
